@@ -1,0 +1,40 @@
+My Connection String
+Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Wave4DB;Integrated Security=True;
+
+Steps to create ADO.NET Application.
+
+1. Started SSMS and created a Table with few rows in it.
+2. Started VST and created one console application.
+3. Right Click on project and select Manage NuGet Packages option from context menu
+4. Go to browse tab and search for System.Configuration.ConfigurationManager and select appropriate version as I am using dotnet 8.X so select respective dotnet version.
+5. Install
+6. Go to project and add Application Configuration File (XML File) by using Add New Item. Name of file will be App.Config don't change it, it is standard.
+7. Now add following code (XML):
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+  <connectionStrings>
+    <add name="csWave4DB" connectionString="Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Wave4DB;Integrated Security=True;"/>
+  </connectionStrings>
+</configuration>
+
+8. Add one DBHelper class and create a static property
+public class DBHelper
+{
+    public static string ConnectionString
+    {
+        get
+        {
+            return System.Configuration.ConfigurationManager.ConnectionStrings["csWave4DB"].ConnectionString;
+        }
+    }
+}
+
+9.Now this property can be used anywhere in project for example:
+static void Main(string[] args)
+{
+    string cstr = DBHelper.ConnectionString;
+    Console.WriteLine(cstr);
+}
+
+
+
